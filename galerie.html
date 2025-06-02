@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galerie Noire</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      overflow: hidden;
+      cursor: none;
+    }
+
+    .gallery {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .frame {
+      position: absolute;
+      border: 10px solid #333;
+      padding: 5px;
+      background-color: #111;
+      box-shadow: 0 0 30px rgba(0,0,0,0.7);
+      transition: transform 0.2s ease;
+    }
+
+    .frame img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Encadrement + disposition artistique */
+    .frame:nth-child(1) { top: 10%; left: 10%; width: 200px; }
+    .frame:nth-child(2) { top: 30%; left: 60%; width: 250px; }
+    .frame:nth-child(3) { top: 60%; left: 30%; width: 180px; }
+    .frame:nth-child(4) { top: 50%; left: 75%; width: 220px; }
+    .frame:nth-child(5) { top: 70%; left: 10%; width: 240px; }
+
+    /* Curseur personnalisé */
+    .cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: difference;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="gallery" id="gallery">
+    <div class="frame"><img src="https://uploads5.wikiart.org/images/francisco-goya/saturn-devouring-his-son-1823.jpg" alt="Goya - Saturn" /></div>
+    <div class="frame"><img src="https://uploads3.wikiart.org/images/hieronymus-bosch/the-garden-of-earthly-delights-1515.jpg" alt="Bosch" /></div>
+    <div class="frame"><img src="https://uploads2.wikiart.org/images/henry-fuseli/the-nightmare-1781.jpg" alt="Fuseli - Nightmare" /></div>
+    <div class="frame"><img src="https://uploads7.wikiart.org/images/odilon-redon/cerrberus-1893.jpg" alt="Redon - Cerberus" /></div>
+    <div class="frame"><img src="https://uploads4.wikiart.org/images/zdzislaw-beksinski/untitled(7).jpg" alt="Beksinski - Untitled" /></div>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const frames = document.querySelectorAll('.frame');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+
+      // effet de "légère fuite" des tableaux
+      frames.forEach(frame => {
+        const rect = frame.getBoundingClientRect();
+        const dx = (e.clientX - (rect.left + rect.width/2)) / 100;
+        const dy = (e.clientY - (rect.top + rect.height/2)) / 100;
+        frame.style.transform = `translate(${dx}px, ${dy}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
+
